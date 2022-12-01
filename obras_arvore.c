@@ -55,7 +55,7 @@ int inserirObraNaArvore(tipoNoListaDupla **raiz, Obra produtoParaInserir){
 tipoNoListaDupla* buscarObra(tipoNoListaDupla *raiz, int id, int nivel) {
   if (raiz){
     if (id == raiz->obra.id){
-      printf("O obra %d foi encontrado na profundidade: %d\n", raiz->obra.nome, nivel);
+      printf("A obra %d foi encontrado na profundidade: %d\n", raiz->obra.nome, nivel);
       return raiz;
     } else if (id < raiz->obra.id){
       return buscarObra(raiz->esquerda, id, nivel + 1);
