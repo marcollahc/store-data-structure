@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include "pilha.c"
 
 /* Estrutura do pedido - Lista circular
 Campos: id, valor total, situacao
@@ -10,7 +11,7 @@ Utilizar essa mesma struct para a expedição dos pedidos (fila)
 typedef struct no{
     int id;
     int valorPedido;
-    int situação; //parâmetros: 0 -  aguardando pagamento   | 1 - pago e em preparacao | 2 - expedido
+    int situacao; //parâmetros: 0 -  aguardando pagamento   | 1 - pago e em preparacao | 2 - expedido
     struct no *prox;
 } Pedido;
 
@@ -19,15 +20,4 @@ typedef struct {
     Pedido *fim;
     int tam;
 } Lista;
-
-/* Estrutura do pagamento - Pilha
-Campos: id, valor total, situacao
-*/
-
-typedef struct no{
-    int id;
-    int valorPedido;
-    int situação; //parâmetros: 0 -  aguardando pagamento   | 1 - pago
-    Pagamento *prox;
-} Pagamento;
 
