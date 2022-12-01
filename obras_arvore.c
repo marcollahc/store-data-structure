@@ -17,7 +17,7 @@ typedef struct noListaDupla {
 	struct noListaDupla *esquerda, *direita;
 } tipoNoListaDupla;
 
-Obra criarProduto(){ // Cadastro de produtos a serem inseridos na árvore
+Obra criarObra(){ // Cadastro de produtos a serem inseridos na árvore
   Obra novoProduto;
   printf("Digite o nome da obra: ");
   getchar();
@@ -40,33 +40,33 @@ void criarNovoNo(tipoNoListaDupla **inicio, Obra obra){ // Alocação de memóri
   *inicio = novoNo;
 }
 
-int inserirProdutoDinamicamente(tipoNoListaDupla **raiz, Obra produtoParaInserir){
+int inserirObraNaArvore(tipoNoListaDupla **raiz, Obra produtoParaInserir){
   if (!*raiz){
     criarNovoNo(raiz, produtoParaInserir);
   } else{
     if (produtoParaInserir.id < (*raiz)->obra.id){
-      inserirProdutoDinamicamente(&((*raiz)->esquerda), produtoParaInserir);
+      inserirObraNaArvore(&((*raiz)->esquerda), produtoParaInserir);
     } else{
-      inserirProdutoDinamicamente(&((*raiz)->direita), produtoParaInserir);
+      inserirObraNaArvore(&((*raiz)->direita), produtoParaInserir);
     }
   }
 }
 
-tipoNoListaDupla* buscarProduto(tipoNoListaDupla *raiz, int id, int nivel) {
+tipoNoListaDupla* buscarObra(tipoNoListaDupla *raiz, int id, int nivel) {
   if (raiz){
     if (id == raiz->obra.id){
       printf("O obra %d foi encontrado na profundidade: %d\n", raiz->obra.nome, nivel);
       return raiz;
     } else if (id < raiz->obra.id){
-      return buscarProduto(raiz->esquerda, id, nivel + 1);
+      return buscarObra(raiz->esquerda, id, nivel + 1);
     } else {
-      return buscarProduto(raiz->direita, id, nivel + 1);
+      return buscarObra(raiz->direita, id, nivel + 1);
     }
   }
   return NULL;
 }
 
-tipoNoListaDupla* excluirProduto(tipoNoListaDupla *raiz, int identificador) { // O identificador é o id da obra
+tipoNoListaDupla* excluirObra(tipoNoListaDupla *raiz, int identificador) { // O identificador é o id da obra
   if (!raiz){
     printf("Obra não encontrada!\n");
     return NULL;
@@ -88,7 +88,7 @@ tipoNoListaDupla* excluirProduto(tipoNoListaDupla *raiz, int identificador) { //
           produtoParaRemover = raiz->obra;
           raiz->obra = noAuxiliar->obra;
           noAuxiliar->obra = produtoParaRemover; 
-          raiz->direita = excluirProduto(raiz->direita, identificador);
+          raiz->direita = excluirObra(raiz->direita, identificador);
           return raiz;
         } else { 
           tipoNoListaDupla *noAuxiliar;
@@ -104,9 +104,9 @@ tipoNoListaDupla* excluirProduto(tipoNoListaDupla *raiz, int identificador) { //
       }
     } else { 
       if(identificador < raiz->obra.id){
-        raiz->esquerda = excluirProduto(raiz->esquerda, identificador);
+        raiz->esquerda = excluirObra(raiz->esquerda, identificador);
       } else {
-        raiz->direita = excluirProduto(raiz->direita, identificador);
+        raiz->direita = excluirObra(raiz->direita, identificador);
       }
       return raiz;
     }
