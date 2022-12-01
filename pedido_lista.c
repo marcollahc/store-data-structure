@@ -7,18 +7,18 @@ Como é uma LISTA CIRCULAR, teremos duas structs: uma representando o nó e outr
 Utilizar essa mesma struct para a expedição dos pedidos (fila)
 */
 
-typedef struct no{
-    int id;
-    int valorPedido;
-    int id_produto; //Cadastrar alguns produtos e, na main, deixar a pessoa decidir qual produto vai inserir
-    int situacao; //parâmetros: 0 -  aguardando pagamento   | 1 - pago e em preparacao | 2 - expedido
-    struct no *prox;
+typedef struct no {
+  int id;
+  int valorPedido;
+  int id_produto; // Cadastrar alguns produtos e, na main, deixar a pessoa decidir qual produto vai inserir
+  int situacao;   // parâmetros: 0 -  aguardando pagamento   | 1 - pago e em preparacao | 2 - expedido
+  struct no *prox;
 } Pedido;
 
 typedef struct {
-    Pedido *inicio;
-    Pedido *fim;
-    int tam;
+  Pedido *inicio;
+  Pedido *fim;
+  int tam;
 } Lista;
 
 /* CRUD
@@ -26,5 +26,4 @@ Criar
 Remover
 Atualizar - somente produto adicionado e valor
 Consultar
-*/ 
-
+*/
