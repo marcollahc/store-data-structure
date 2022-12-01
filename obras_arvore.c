@@ -66,6 +66,29 @@ tipoNoListaDupla* buscarObra(tipoNoListaDupla *raiz, int id, int nivel) {
   return NULL;
 }
 
+int buscarTotalProdutos(tipoNoListaDupla *raiz){
+  if (!raiz) {
+    return 0;
+  } else {
+    return 1 + buscarTotalProdutos(raiz->esquerda) + buscarTotalProdutos(raiz->direita);
+  }
+}
+
+int salvarAlturaObra(tipoNoListaDupla *raiz){
+  if (!raiz){
+    return -1;
+  } else {
+    int esquerdaDoNo = salvarAlturaObra(raiz->esquerda);
+    int direitaDoNo = salvarAlturaObra(raiz->direita);
+
+    if(esquerdaDoNo > direitaDoNo){
+      raiz->obra.altura = esquerdaDoNo + 1;
+    } else {
+      raiz->obra.altura = direitaDoNo + 1;
+    }
+  }
+}
+
 tipoNoListaDupla* excluirObra(tipoNoListaDupla *raiz, int identificador) { // O identificador é o id da obra
   if (!raiz){
     printf("Obra não encontrada!\n");
