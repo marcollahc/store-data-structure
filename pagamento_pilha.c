@@ -13,6 +13,7 @@ Campos: id, valor total, situacao
 typedef struct no{
     int id;
     int valorPedido;
+    //int idPedido
     int situacao; //parâmetros: 0 -  aguardando pagamento   | 1 - pago
     Pagamento *prox;
 } Pagamento;
