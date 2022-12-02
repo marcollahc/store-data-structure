@@ -9,7 +9,6 @@ typedef struct no_expedicao {
 } Expedicao;
 
 typedef struct no_fila {
-    int tamanho;
     struct no_expedicao *inicio;
     struct no_expedicao *final;
 } Fila;
@@ -17,7 +16,7 @@ typedef struct no_fila {
 int inicializa_fila(Fila *fila);
 int inserir_fila(Fila *fila, Expedicao expedicao);
 int remover_fila(Fila *fila);
-int consultar_fila(Fila *fila, Expedicao expedicao);
+int consultar_fila(Fila *fila, Expedicao *expedicao);
 
 int main(int argc, char const *argv[]) {
     int erro, opcao;
@@ -77,7 +76,7 @@ int main(int argc, char const *argv[]) {
                 system("pause");
                 break;
             case 4:
-                erro = consultar_fila(&fila, expedicao);
+                erro = consultar_fila(&fila, &expedicao);
 
                 if (erro == 0) {
                     printf("ID: %d | Pedido: %d\n", expedicao.id, expedicao.pedido);
@@ -94,14 +93,11 @@ int main(int argc, char const *argv[]) {
         }
         getchar();
     } while (opcao != 5);
-
-    remover_fila(&fila);
     
     return 0;
 }
 
 int inicializa_fila(Fila *fila) {
-    (*fila).tamanho = 0;
     (*fila).inicio = NULL;
     (*fila).final = NULL;
 }
@@ -111,7 +107,7 @@ int inserir_fila(Fila *fila, Expedicao expedicao) {
     novo.id = expedicao.id;
     novo.pedido = expedicao.pedido;
 
-    if ((*fila).tamanho == 0) {
+    if (fila != NULL) {
         (*fila).inicio = &novo;
         (*fila).final = &novo;
         novo.prox = NULL;
@@ -120,24 +116,24 @@ int inserir_fila(Fila *fila, Expedicao expedicao) {
         novo.prox = NULL;
     }
 
-    (*fila).tamanho = (*fila).tamanho++;
-
     return 0;
 }
 
 int remover_fila(Fila *fila) {
-    Expedicao *final = fila->final;
+    Expedicao *final = (*fila).final;
     
-    if (final != NULL) {
-        return 1;
+    if (fila != NULL) {
+        fila->final = final->prox;
+        free(final);
+        return 0;
     }
 
-    return 0;
+    return 1;
 }
 
-int consultar_fila(Fila *fila, Expedicao expedicao) {
+int consultar_fila(Fila *fila, Expedicao *expedicao) {
     if (fila != NULL) {
-        (*expedicao) = fila->inicio;
+        expedicao = (*fila).inicio;
         return 0;
     }
 
