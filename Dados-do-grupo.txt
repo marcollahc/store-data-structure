@@ -1,0 +1,23 @@
+Tema do trabalho: Gerenciamento para um Acervo de obras de arte
+Nosso grupo escolheu criar um Gerenciamento para um Acervo de obras de arte, então são peças únicas, em que cada id representa unicamente uma peça.
+
+As estruturas que nós utilizamos foram:
+1- Lista encadeada para o armazenamento dos pedidos
+
+2- Pilha para análise dos pagamentos
+
+3- Fila para expedição dos pedidos 
+Lista dos pedidos a serem expedidos, composta por id, valor total e situação.
+
+4- Árvore binária para o estoque dos produtos
+Lista dos produtos que serão vendidos pela loja, composta por id, largura, altura, comprimento e local. 
+
+
+Integrantes do grupo:
+Gustavo Ramos Romagnolo 254255
+Marcos César Medeiros 247551
+Mariana Pereira Araújo 254314
+Thamires de Melo Prado 244651
+
+
+Vale ressaltar que nosso grupo teve dificuldades em criar as interrelações, então resolvemos fazer de uma forma que ainda sim mantivesse a consistência do sistema mesmo que os dados não viessem diretamente de outra struct. As interligações então estão feitas, porém simplificadas.
