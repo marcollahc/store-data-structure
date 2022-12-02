@@ -116,3 +116,42 @@ int excluirPedido(Pedido **inicio, int num) {
   }
   return 0;
 }
+
+
+
+ 
+ /*Consultar - Lista de Pagamentos - situacao = 0*/
+ 
+int ConsultarPag0(Pedido *inicio, tipoNoListaDupla *raizArvore) {
+    if (inicio != NULL) {
+        do {
+        printf("ID DO PEDIDO: %d\n", inicio->id);
+        printf("VALOR DO PEDIDO: %d\n", inicio->valorPedido);
+        printf("SITUAÇÃO: %d\n", inicio->situacao);
+        printf("\n");
+        inicio = inicio->prox;
+        
+      } while (inicio->situacao == 0);
+    }else{
+        printf("Nada encontrado");
+        printf("\n");
+    }
+ }
+
+ /*Consultar - Lista de Pagamentos - situacao = 1*/
+ int ConsultarPag1(Pedido *inicio, tipoNoListaDupla *raizArvore) {
+    if (inicio != NULL) {
+        do {
+        printf("ID DO PEDIDO: %d\n", inicio->id);
+        printf("VALOR DO PEDIDO: %d\n", inicio->valorPedido);
+        printf("SITUAÇÃO: %d\n", inicio->situacao);
+        printf("\n");
+        inicio = inicio->prox;
+        
+      } while (inicio->situacao == 1);
+    }else{
+        printf("Nada encontrado");
+        printf("\n");
+    }
+ }
+

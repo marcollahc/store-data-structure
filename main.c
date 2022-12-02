@@ -6,7 +6,11 @@
 
 int main()
 {
-	Pedido *ini; // a lista dos peo?= aqui
+	
+	int idPagamento, valorPedidoPagamento, situacaoPagamento;
+    Pagamento *iniciar;
+    
+    Pedido *ini; // a lista dos peo?= aqui
 	int q, erro, idObra, erroArvore;
 	int idPedido, valorPedido;
 	tipoNoListaDupla *raizArvore, *buscaArvore;
@@ -28,11 +32,12 @@ int main()
 		printf("4 - Obra vendida? Gere um pedido aqui\n");
 		printf("5 - Consultar lista de pedidos\n");
 		printf("6 - Atualize o status do pagamento de um pedido\n");
-		printf("7 - Expedir pedido com pagamento realizado\n");
-		printf("8 - Excluir obra do acervo \n");
-		printf("9 - Excluir pedido\n");
-		printf("10 - Lista de pedidos expedidos\n");
-		printf("11 - Sair\n");
+		printf("7 - Verificar Pagamentos\n");
+		printf("8 - Expedir pedido com pagamento realizado\n");
+		printf("9 - Excluir obra do acervo\n");
+		printf("10 - Excluir pedido\n");
+		printf("11 - Lista de pedidos expedidos\n");
+		printf("12 - Sair\n");
 		scanf("%d", &q);
 
 		switch (q) {
@@ -89,20 +94,32 @@ int main()
 			scanf("%d", &idPedido);
 			atualizarSituacaoPedido(ini, idPedido);
 			break;
-
+		
+		/********************/
+		
 		case 7:
+			printf("\nLista de Pagamentos a serem confirmados:\n");
+			ConsultarPag0(ini, raizArvore);
+			
+			printf("\nLista de Pedidos já pagos:\n");
+			ConsultarPag1(ini, raizArvore);
+			break;
+	        
+		/********************/
+
+		case 8:
 			printf("\nInsira o ID do pedido que vai ser expedido:\n");
 			scanf("%d", &idPedido);
 			expedirPedido(ini, idPedido);
 			break;
 
-		case 8:
+		case 9:
 			printf("\nInsira o ID da obra a ser excluida:\n");
 			scanf("%d", &q);
 			raizArvore = excluirObra(raizArvore, q);
 			break;
 
-		case 9:
+		case 10:
 			printf("\nDigite o ID do pedido que deseja excluir: ");
 			scanf("%d", &idPedido);
 			erro = excluirPedido(&ini, idPedido);
@@ -111,14 +128,15 @@ int main()
 			}
 			break;
 
-		case 10:
+		case 11:
 			printf("\n* -----------------------------------------------------------------------------\n");
 			printf("\nEsses são os pedidos que foram pagos e enviados para o comprador: \n");
 			listarPedidosExpedidos(ini);
 			printf("* -----------------------------------------------------------------------------\n");
 			break;
 
-		case 11:
+		case 12:
+		//return 1;
 			break;
 
 		default:
