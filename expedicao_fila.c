@@ -14,85 +14,78 @@ typedef struct no_fila {
 } Fila;
 
 int inicializa_fila(Fila *fila);
-int inserir_fila(Fila *fila, Expedicao expedicao);
+int inserir_fila(Fila *fila, int id, int pedido);
 int remover_fila(Fila *fila);
-int consultar_fila(Fila *fila, Expedicao *expedicao);
+int consultar_fila(Fila *fila, int *id, int *pedido);
 
-// int main(int argc, char const *argv[]) {
-//     int erro, opcao;
+int main(int argc, char const *argv[]) {
+    int erro, opcao, id, pedido;
+    
+    Expedicao *expedicao = malloc(sizeof(Expedicao));
+    Fila fila;
 
-//     Expedicao expedicao;
-//     Fila fila;
-
-//     do {
-//         system("cls");
-//         printf("FILA Estatica \n");
-//         printf("\n\nOpcoes: \n\n");
-//         printf("1 -> Inicializa \n");
-//         printf("2 -> Insere\n");
-//         printf("3 -> Remove\n");
-//         printf("4 -> Lista \n");
-//         printf("5 -> Sair \n:");
-//         scanf("%d", &opcao);
+    do {
+        system("clear");
+        printf("FILA Estatica \n");
+        printf("\n\nOpcoes: \n\n");
+        printf("1 -> Inicializa \n");
+        printf("2 -> Insere\n");
+        printf("3 -> Remove\n");
+        printf("4 -> Lista \n");
+        printf("5 -> Sair \n:");
+        scanf("%d", &opcao);
+        getchar();
         
-//         switch (opcao) {
-//             case 1:
-//                 erro = inicializa_fila(&fila);
-//                 printf("\nInicializacao realizada com sucesso !\n");
-//                 printf("\nFila VAZIA \n");
-//                 system("pause");
-//                 break;
-//             case 2:
-//                 printf("Dado para insercao: \n\n");
+        switch (opcao) {
+            case 1:
+                erro = inicializa_fila(&fila);
+                printf("\nInicializacao realizada com sucesso !\n");
+                printf("\nFila VAZIA \n");
+                system("pause");
+                break;
+            case 2:
+                printf("Dado para insercao: \n\n");
 
-//                 printf("Digite o número da expedição: ");
+                printf("Digite o número da expedição: ");
+                scanf("%d", &id);
 
-//                 int temp_id = 0, temp_pedido = 0;
-                
-//                 scanf("%d", &temp_id);
+                printf("Digite o número do pedido: ");
+                scanf("%d", &pedido);
 
-//                 expedicao.id = temp_id;
+                erro = inserir_fila(&fila, id, pedido);
 
-//                 printf("Digite o número do pedido: ");
-//                 scanf("%d", &temp_pedido);
+                if (erro == 1) {
+                    printf("\nFila cheia. Overflow\n");
+                }
 
-//                 expedicao.pedido = temp_pedido;
+                system("pause");
+                break;
+            case 3:
+                erro = remover_fila(&fila);
 
-//                 erro = inserir_fila(&fila, expedicao);
+                if (erro == 1) {
+                    printf("\nFila Vazia. Underflow\n");
+                }
 
-//                 if (erro == 1) {
-//                     printf("\nFila cheia. Overflow\n");
-//                 }
+                system("pause");
+                break;
+            case 4:
+                erro = consultar_fila(&fila, &id, &pedido);
 
-//                 system("pause");
-//                 break;
-//             case 3:
-//                 erro = remover_fila(&fila);
+                if (erro == 0) {
+                    printf("ID: %d | Pedido: %d\n", id, pedido);
+                } else {
+                    printf("fila vazia. Sem primeiro\n");
+                }
 
-//                 if (erro == 1) {
-//                     printf("\nFila Vazia. Underflow\n");
-//                 }
-
-//                 system("pause");
-//                 break;
-//             case 4:
-//                 erro = consultar_fila(&fila, &expedicao);
-
-//                 if (erro == 0) {
-//                     printf("ID: %d | Pedido: %d\n", expedicao.id, expedicao.pedido);
-//                 } else {
-//                     printf("fila vazia. Sem primeiro\n");
-//                 }
-
-//                 system("pause");
-//                 break;
-//             case 5:
-//                 break;
-//             default:
-//                 printf("\n\n Opcao nao valida");
-//         }
-//         getchar();
-//     } while (opcao != 5);
+                system("pause");
+                break;
+            case 5:
+                break;
+            default:
+                printf("\n\n Opcao nao valida");
+        }
+    } while (opcao != 5);
     
 //     return 0;
 // }
@@ -102,40 +95,54 @@ int inicializa_fila(Fila *fila) {
     (*fila).final = NULL;
 }
 
-int inserir_fila(Fila *fila, Expedicao expedicao) {
-    Expedicao novo;
-    novo.id = expedicao.id;
-    novo.pedido = expedicao.pedido;
+int inserir_fila(Fila *fila, int id, int pedido) {
+    Expedicao *expedicao = malloc(sizeof(Expedicao));
 
-    if (fila != NULL) {
-        (*fila).inicio = &novo;
-        (*fila).final = &novo;
-        novo.prox = NULL;
+    if (expedicao == NULL) {
+        return 1;
     } else {
-        (*fila).final = &novo;
-        novo.prox = NULL;
+        expedicao->id = id;
+        expedicao->pedido = pedido;
+        expedicao->prox = NULL;
     }
+
+    if (fila->inicio == NULL) {
+        fila->inicio = expedicao;
+    } else {
+        fila->final->prox = expedicao;
+    }
+
+    fila->final = expedicao;
 
     return 0;
 }
 
 int remover_fila(Fila *fila) {
-    Expedicao *final = (*fila).final;
-    
-    if (fila != NULL) {
-        fila->final = final->prox;
-        free(final);
-        return 0;
+    Expedicao *expedicao = malloc(sizeof(Expedicao));
+
+    if (fila->inicio == NULL) {
+        return 1;
     }
 
-    return 1;
+    expedicao = fila->inicio;
+    fila->inicio = expedicao->prox;
+
+    if (fila->inicio == NULL) {
+        fila->final = NULL;
+    }
+
+    free(expedicao);
+    return 0;
+
 }
 
-int consultar_fila(Fila *fila, Expedicao *expedicao) {
-    if (fila != NULL) {
-        expedicao = (*fila).inicio;
-        return 0;
+int consultar_fila(Fila *fila, int *id, int *pedido) {
+    if (fila->inicio == NULL) {
+        return 1;
     }
 
-    return 1;
+    *id = (*fila).inicio->id;
+    *pedido = (*fila).inicio->pedido;
+
+    return 0;
 }
