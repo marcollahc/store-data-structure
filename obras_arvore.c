@@ -5,9 +5,9 @@
 Campos: id, largura, altura, comprimento e local */
 typedef struct {
   int id;
-  int largura;
-  int altura;
-  int profundidade;
+  float largura;
+  float altura;
+  float peso;
   char localizacao[100];
   char nome[50];
 } Obra;
@@ -26,6 +26,19 @@ Obra criarObra(){ // Cadastro de produtos a serem inseridos na árvore
   printf("Digite o identificador da obra: ");
   scanf("%d", &novoProduto.id);
 
+  printf("Digite a altura da obra em mm: ");
+  scanf("%f", &novoProduto.altura);
+
+  printf("Digite a largura da obra em mm: ");
+  scanf("%f", &novoProduto.largura);
+
+  printf("Digite o peso da obra em gramas: ");
+  scanf("%f", &novoProduto.peso);
+
+  printf("Digite a localização da obra: ");
+  getchar();
+  fgets(novoProduto.localizacao, 99, stdin);
+
   return novoProduto;
 }
 
@@ -40,22 +53,35 @@ void criarNovoNo(tipoNoListaDupla **inicio, Obra obra){ // Alocação de memóri
   *inicio = novoNo;
 }
 
-void inserirObraNaArvore(tipoNoListaDupla **raiz, Obra produtoParaInserir){
+int inicializarArvore (tipoNoListaDupla **inicio) {
+	*inicio = NULL;
+	return 0;
+}
+
+int inserirObraNaArvore(tipoNoListaDupla **raiz, Obra produtoParaInserir) {
   if (!*raiz){
     criarNovoNo(raiz, produtoParaInserir);
-  } else{
-    if (produtoParaInserir.id < (*raiz)->obra.id){
+  } else {
+    if (produtoParaInserir.id < (*raiz)->obra.id) {
       inserirObraNaArvore(&((*raiz)->esquerda), produtoParaInserir);
     } else{
       inserirObraNaArvore(&((*raiz)->direita), produtoParaInserir);
     }
   }
+
+  return 0;
 }
 
 tipoNoListaDupla* buscarObra(tipoNoListaDupla *raiz, int id, int nivel) {
-  if (raiz){
+  if (raiz) {
     if (id == raiz->obra.id){
-      printf("A obra %d foi encontrado na profundidade: %d\n", raiz->obra.nome, nivel);
+      printf("Obra encontrada!\n");
+      printf("Nome: %s\n", raiz->obra.nome);
+      printf("Identificador: %d\n", raiz->obra.id);
+      printf("Altura: %f\n", raiz->obra.altura);
+      printf("Largura: %f\n", raiz->obra.largura);
+      printf("Peso: %f\n", raiz->obra.peso);
+      printf("Localização: %s\n", raiz->obra.localizacao);
       return raiz;
     } else if (id < raiz->obra.id){
       return buscarObra(raiz->esquerda, id, nivel + 1);
@@ -74,18 +100,11 @@ int buscarTotalProdutos(tipoNoListaDupla *raiz){
   }
 }
 
-int salvarAlturaObra(tipoNoListaDupla *raiz){
-  if (!raiz){
-    return -1;
-  } else {
-    int esquerdaDoNo = salvarAlturaObra(raiz->esquerda);
-    int direitaDoNo = salvarAlturaObra(raiz->direita);
-
-    if(esquerdaDoNo > direitaDoNo){
-      raiz->obra.altura = esquerdaDoNo + 1;
-    } else {
-      raiz->obra.altura = direitaDoNo + 1;
-    }
+void mostrarTodasObras(tipoNoListaDupla *raiz, int nivel){
+  if (raiz) {
+    mostrarTodasObras(raiz->esquerda, nivel + 1);
+    printf("%s(%d) ",raiz->obra.nome, nivel);
+    mostrarTodasObras(raiz->direita, nivel + 1);
   }
 }
 
