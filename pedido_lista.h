@@ -87,6 +87,8 @@ void listarPedidosExpedidos(Pedido *inicio) {
   do {
     if (inicio->situacao == 2) {
       printf("Idenfiticador do pedido: %d\n", inicio->id);
+      printf("Valor do pedido: %d\n", inicio->valorPedido);
+      printf("Identificador da obra: %d\n", inicio->idProduto);
     }
     inicio = inicio->prox;
   } while (inicio);

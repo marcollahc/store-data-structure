@@ -113,7 +113,7 @@ int main()
 
 		case 10:
 			printf("\n* -----------------------------------------------------------------------------\n");
-			printf("\nEsses são os pedidos que foram pagos e enviados para o comprador. Escolha qual você deseja visualizar:\n");
+			printf("\nEsses são os pedidos que foram pagos e enviados para o comprador: \n");
 			listarPedidosExpedidos(ini);
 			printf("* -----------------------------------------------------------------------------\n");
 			break;

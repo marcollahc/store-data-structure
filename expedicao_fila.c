@@ -87,8 +87,8 @@ int main(int argc, char const *argv[]) {
         }
     } while (opcao != 5);
     
-//     return 0;
-// }
+    return 0;
+}
 
 int inicializa_fila(Fila *fila) {
     (*fila).inicio = NULL;
