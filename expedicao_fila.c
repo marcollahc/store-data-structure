@@ -5,13 +5,13 @@
 typedef struct no_expedicao {
     int id;
     int pedido;
-    struct Expedicao *prox;
+    struct no_expedicao *prox;
 } Expedicao;
 
 typedef struct no_fila {
     int tamanho;
-    struct Expedicao *inicio;
-    struct Expedicao *final;
+    struct no_expedicao *inicio;
+    struct no_expedicao *final;
 } Fila;
 
 int inicializa_fila(Fila *fila);
@@ -137,7 +137,7 @@ int remover_fila(Fila *fila) {
 
 int consultar_fila(Fila *fila, Expedicao expedicao) {
     if (fila != NULL) {
-        expedicao = fila->inicio;
+        (*expedicao) = fila->inicio;
         return 0;
     }
 
