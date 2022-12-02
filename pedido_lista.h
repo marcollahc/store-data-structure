@@ -124,14 +124,16 @@ int excluirPedido(Pedido **inicio, int num) {
  
 int ConsultarPag0(Pedido *inicio, tipoNoListaDupla *raizArvore) {
     if (inicio != NULL) {
-        do {
-        printf("ID DO PEDIDO: %d\n", inicio->id);
-        printf("VALOR DO PEDIDO: %d\n", inicio->valorPedido);
-        printf("SITUAÇÃO: %d\n", inicio->situacao);
-        printf("\n");
+      do {
+        if (inicio->situacao == 0) {
+          printf("ID DO PEDIDO: %d\n", inicio->id);
+          printf("VALOR DO PEDIDO: %d\n", inicio->valorPedido);
+          printf("SITUAÇÃO: %d\n", inicio->situacao);
+          printf("\n");
+        }
         inicio = inicio->prox;
         
-      } while (inicio->situacao == 0);
+      } while (inicio != NULL);
     }else{
         printf("Nada encontrado");
         printf("\n");
@@ -141,14 +143,15 @@ int ConsultarPag0(Pedido *inicio, tipoNoListaDupla *raizArvore) {
  /*Consultar - Lista de Pagamentos - situacao = 1*/
  int ConsultarPag1(Pedido *inicio, tipoNoListaDupla *raizArvore) {
     if (inicio != NULL) {
-        do {
-        printf("ID DO PEDIDO: %d\n", inicio->id);
-        printf("VALOR DO PEDIDO: %d\n", inicio->valorPedido);
-        printf("SITUAÇÃO: %d\n", inicio->situacao);
-        printf("\n");
-        inicio = inicio->prox;
-        
-      } while (inicio->situacao == 1);
+      do {
+        if (inicio->situacao == 1) {
+          printf("ID DO PEDIDO: %d\n", inicio->id);
+          printf("VALOR DO PEDIDO: %d\n", inicio->valorPedido);
+          printf("SITUAÇÃO: %d\n", inicio->situacao);
+          printf("\n");
+        }
+        inicio = inicio->prox;        
+      } while (inicio != NULL);
     }else{
         printf("Nada encontrado");
         printf("\n");

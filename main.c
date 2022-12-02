@@ -1,19 +1,19 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
 #include "obras_arvore.h"
 #include "pagamento_pilha.h"
 #include "pedido_lista.h"
+#include "expedicao_fila.h"
 
 int main()
 {
-	
-	int idPagamento, valorPedidoPagamento, situacaoPagamento;
+	int q, erro, idObra, erroArvore, idExpedicao, idPagamento, valorPedidoPagamento, situacaoPagamento, idPedido, valorPedido;
+
+    Pedido *ini;
     Pagamento *iniciar;
-    
-    Pedido *ini; // a lista dos peo?= aqui
-	int q, erro, idObra, erroArvore;
-	int idPedido, valorPedido;
 	tipoNoListaDupla *raizArvore, *buscaArvore;
+	Fila filaExpedicao;
 
 	erroArvore = inicializarArvore(&raizArvore);
 
@@ -93,24 +93,45 @@ int main()
 			printf("\nInsira o ID do pedido que foi pago:\n");
 			scanf("%d", &idPedido);
 			atualizarSituacaoPedido(ini, idPedido);
+
+			if (&filaExpedicao == NULL) {
+				inicializaFila(&filaExpedicao);
+			}
+
+			time_t seconds;
+			seconds = time(NULL);
+
+			erro = inserirFila(&filaExpedicao, seconds, idPedido);
+
+			if (erro == 1) {
+				printf("\nFila cheia.\n");
+			}
+
 			break;
-		
-		/********************/
-		
 		case 7:
 			printf("\nLista de Pagamentos a serem confirmados:\n");
 			ConsultarPag0(ini, raizArvore);
 			
 			printf("\nLista de Pedidos já pagos:\n");
 			ConsultarPag1(ini, raizArvore);
-			break;
-	        
-		/********************/
 
+			getchar();
+
+			break;
 		case 8:
-			printf("\nInsira o ID do pedido que vai ser expedido:\n");
-			scanf("%d", &idPedido);
-			expedirPedido(ini, idPedido);
+			erro = consultarFila(&filaExpedicao, &idExpedicao, &idPedido);
+
+			if (erro == 0) {
+                if (removerFila(&filaExpedicao) == 1) {
+                    printf("\nFila Vazia.\n");
+                } else {
+					expedirPedido(ini, idPedido);
+					printf("A ordem %d do pedido %d foi expedida com sucesso!\n", idExpedicao, idPedido);
+				}
+			} else {
+				printf("fila vazia.\n");
+			}
+
 			break;
 
 		case 9:
