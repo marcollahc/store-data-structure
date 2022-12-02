@@ -8,7 +8,6 @@ typedef struct {
   float largura;
   float altura;
   float peso;
-  char localizacao[100];
   char nome[50];
 } Obra;
 
@@ -35,10 +34,6 @@ Obra criarObra(){ // Cadastro de produtos a serem inseridos na árvore
   printf("Digite o peso da obra em gramas: ");
   scanf("%f", &novoProduto.peso);
 
-  printf("Digite a localização da obra: ");
-  getchar();
-  fgets(novoProduto.localizacao, 99, stdin);
-
   return novoProduto;
 }
 
@@ -53,7 +48,7 @@ void criarNovoNo(tipoNoListaDupla **inicio, Obra obra){ // Alocação de memóri
   *inicio = novoNo;
 }
 
-int inicializarArvore (tipoNoListaDupla **inicio) {
+int inicializarArvore(tipoNoListaDupla **inicio) {
 	*inicio = NULL;
 	return 0;
 }
@@ -72,7 +67,7 @@ int inserirObraNaArvore(tipoNoListaDupla **raiz, Obra produtoParaInserir) {
   return 0;
 }
 
-tipoNoListaDupla* buscarObra(tipoNoListaDupla *raiz, int id, int nivel) {
+tipoNoListaDupla* buscarObra(tipoNoListaDupla *raiz, int id) {
   if (raiz) {
     if (id == raiz->obra.id){
       printf("Obra encontrada!\n");
@@ -81,29 +76,20 @@ tipoNoListaDupla* buscarObra(tipoNoListaDupla *raiz, int id, int nivel) {
       printf("Altura: %f\n", raiz->obra.altura);
       printf("Largura: %f\n", raiz->obra.largura);
       printf("Peso: %f\n", raiz->obra.peso);
-      printf("Localização: %s\n", raiz->obra.localizacao);
       return raiz;
     } else if (id < raiz->obra.id){
-      return buscarObra(raiz->esquerda, id, nivel + 1);
+      return buscarObra(raiz->esquerda, id);
     } else {
-      return buscarObra(raiz->direita, id, nivel + 1);
+      return buscarObra(raiz->direita, id);
     }
   }
   return NULL;
 }
 
-int buscarTotalProdutos(tipoNoListaDupla *raiz){
-  if (!raiz) {
-    return 0;
-  } else {
-    return 1 + buscarTotalProdutos(raiz->esquerda) + buscarTotalProdutos(raiz->direita);
-  }
-}
-
 void mostrarTodasObras(tipoNoListaDupla *raiz, int nivel){
   if (raiz) {
     mostrarTodasObras(raiz->esquerda, nivel + 1);
-    printf("%s(%d) ",raiz->obra.nome, nivel);
+    printf("Nome da obra: %s | Id: %d | Nível na árvore binária(%d)\n\n", raiz->obra.nome, raiz->obra.id, nivel);
     mostrarTodasObras(raiz->direita, nivel + 1);
   }
 }

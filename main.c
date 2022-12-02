@@ -1,134 +1,129 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include "obras_arvore.c"
-#include "pagamento_pilha.c"
-#include "pedido_lista.c"
+#include "obras_arvore.h"
+#include "pagamento_pilha.h"
+#include "pedido_lista.h"
 
-int main() {
-  Pedido *ini;                      // a lista dos pe� aqui
-  int q, erro, *idObra, erroArvore; // usar o idobra como ponteiro pq ele vai ser importante em varios os cases???
-  int idPedido, valorPedido;
-  tipoNoListaDupla *raizArvore, *buscaArvore;
+int main()
+{
+	Pedido *ini; // a lista dos peo?= aqui
+	int q, erro, idObra, erroArvore;
+	int idPedido, valorPedido;
+	tipoNoListaDupla *raizArvore, *buscaArvore;
 
-  erroArvore = inicializarArvore(&raizArvore);
-  
-  if (erroArvore > 0) {
-    printf("Ocorreu um erro ao inicializar o banco de obras");
-  }
+	erroArvore = inicializarArvore(&raizArvore);
 
-  erro = Inicializar_LS(&ini);
+	if (erroArvore > 0) {
+		printf("Ocorreu um erro ao inicializar o banco de obras");
+	}
 
-  do {
-    printf("\nGERENCIAMENTO - ACERVO OBRAS DE ARTE\n");
-    printf("\nOpções:\n");
-    printf("1 - Cadastrar novas obras\n");
-    printf("2 - Consultar acervo\n");
-    printf("3 - Buscar obra específica\n");
-    printf("4 - Obra vendida? Gere um pedido aqui\n");
-    printf("5 - Consultar lista de pedidos\n");
-    printf("6 - Atualize o status do pagamento de um pedido \n");
-    printf("7 - Expedir pedido com pagamento realizado \n");
+	erro = inicializarLista(&ini);
 
-    printf("\nTarefas de gerenciamento :\n");
-    printf("8 - Excluir obra do acervo \n");
-    printf("9 - Excluir pedido\n");
-    printf("10 - \n");
-    printf("11 - \n");
-    printf("12 -  \n");
-    printf("13 -  \n");
-    printf("14 -  \n");
-    printf("15 -  \n");
-    printf("16 -  \n");
-    scanf("%d", &q);
+	do {
+		printf("\nGERENCIAMENTO - ACERVO OBRAS DE ARTE\n");
+		printf("\nOpcoes:\n");
+		printf("1 - Cadastrar novas obras\n");
+		printf("2 - Consultar acervo\n");
+		printf("3 - Buscar obra especifica\n");
+		printf("4 - Obra vendida? Gere um pedido aqui\n");
+		printf("5 - Consultar lista de pedidos\n");
+		printf("6 - Atualize o status do pagamento de um pedido\n");
+		printf("7 - Expedir pedido com pagamento realizado\n");
+		printf("8 - Excluir obra do acervo \n");
+		printf("9 - Excluir pedido\n");
+		printf("10 - Lista de pedidos expedidos\n");
+		printf("11 - Sair\n");
+		scanf("%d", &q);
 
-    switch (q) {
-    case 1:
-      printf("\nInforme os dados da obra para inseri-la no acervo:\n");
-      erroArvore = inserirObraNaArvore(&raizArvore, criarObra());
-      if (erro == 0) {
-        printf("\nObra cadastrada no acervo com sucesso!\n");
-      }
-      break;
+		switch (q) {
+		case 1:
+			printf("\nInforme os dados da obra para inseri-la no acervo:\n");
+			erroArvore = inserirObraNaArvore(&raizArvore, criarObra());
+			if (erro == 0) {
+				printf("\nObra cadastrada no acervo com sucesso!\n");
+				printf("Pressione ENTER para retornar ao menu principal\n");
+			}
+			break;
 
-    case 2:
-      mostrarTodasObras(raizArvore, 0);
-      break;
+		case 2:
+			mostrarTodasObras(raizArvore, 0);
+			break;
 
-    case 3:
-      printf("\nDigite o identificador da obra a ser buscada: \n");
-      scanf("%d", &q);
-      buscaArvore = buscarObra(raizArvore, q, 0);
-      if (!buscaArvore) {
-        printf("Obra não encontrada!\n");
-      }
+		case 3:
+			printf("\nDigite o identificador da obra a ser buscada: \n");
+			scanf("%d", &q);
+			buscaArvore = buscarObra(raizArvore, q);
+			if (!buscaArvore) {
+				printf("Obra nao encontrada!\n");
+			}
+			break;
 
-      break;
+		case 4:
+			printf("\nInsira os dados do seu pedido para cria-lo:\n");
+			printf("\nIdentificador do pedido: ");
+			scanf("%d", &idPedido);
+			printf("\nValor do pedido: ");
+			scanf("%d", &valorPedido);
+			printf("\n* -----------------------------------------------------------------------------\n");
+			printf("\nEssas são as obras em estoque. Escolha a que vai para o pedido e digite seu ID:\n");
+			mostrarTodasObras(raizArvore, 0);
+			printf("* -----------------------------------------------------------------------------\n");
+			printf("\nIdentificador da obra vendida: ");
+			scanf("%d", &idObra);
 
-    case 4:
-      printf("\nInsira os dados do seu pedido para criá-lo:\n");
-      printf("\nId do pedido: ");
-      scanf("%d", &idPedido);
-      printf("\nValor do pedido: ");
-      scanf("%d", &valorPedido);
-      printf("\nId da obra vendida: ");
-      scanf("%d", &idObra);
+			erro = inserirNovoPedido(&ini, idPedido, valorPedido, idObra);
+			if (erro == 0) {
+				printf("\nSeu pedido foi criado. Acesse a opcao 5 para verificar todos os seus pedidos\n");
+			}
+			break;
 
-      erro = Inserir_Novo_Pedido(&ini, idPedido, valorPedido, &idObra);
-      if (erro == 0) {
-        printf("\nSeu pedido foi criado. Acesse a opção 4 para verificar todos os seus pedidos\n");
-      }
-      break;
+		case 5:
+			erro = listarPedidos(ini, raizArvore);
+			if (erro == 1) {
+				printf("\nNao ha nenhum pedido cadastrado\n");
+			}
+			break;
 
-    case 5:
-      erro = Listar_Pedidos(&ini);
-      if (erro == 1) {
-        printf("\nNão há nenhum pedido cadastrado\n");
-      }
-      break;
+		case 6:
+			printf("\nInsira o ID do pedido que foi pago:\n");
+			scanf("%d", &idPedido);
+			atualizarSituacaoPedido(ini, idPedido);
+			break;
 
-    case 6:
-      break;
+		case 7:
+			printf("\nInsira o ID do pedido que vai ser expedido:\n");
+			scanf("%d", &idPedido);
+			expedirPedido(ini, idPedido);
+			break;
 
-    case 7:
-      break;
+		case 8:
+			printf("\nInsira o ID da obra a ser excluida:\n");
+			scanf("%d", &q);
+			raizArvore = excluirObra(raizArvore, q);
+			break;
 
-    case 8:
-      printf("\nInsira o ID da obra a ser excluida:\n");
-      scanf("%d", &q);
-      raizArvore = excluirObra(raizArvore, q);
-      break;
+		case 9:
+			printf("\nDigite o ID do pedido que deseja excluir: ");
+			scanf("%d", &idPedido);
+			erro = excluirPedido(&ini, idPedido);
+			if (erro == 0) {
+				printf("\nPedido removido.\n");
+			}
+			break;
 
-    case 9:
-      printf("\nDigite o ID do pedido que deseja excluir: ");
-      scanf("%d", &idPedido);
-      erro = Remover_Pedido(&ini, idPedido);
-      if (erro == 0) {
-        printf("\nPedido removido.\n");
-      }
-      break;
+		case 10:
+			printf("\n* -----------------------------------------------------------------------------\n");
+			printf("\nEsses são os pedidos que foram pagos e enviados para o comprador. Escolha qual você deseja visualizar:\n");
+			listarPedidosExpedidos(ini);
+			printf("* -----------------------------------------------------------------------------\n");
+			break;
 
-    case 10:
+		case 11:
+			break;
 
-      break;
-
-    case 11:
-      break;
-
-    case 12:
-      break;
-
-    case 13:
-      break;
-
-    case 14:
-      break;
-
-    case 15:
-      break;
-
-    default:
-      printf("\n\n Opção inválida");
-    }
-    getchar();
-  } while (q != 15);
+		default:
+			printf("\n\n Opcao invalida");
+		}
+		getchar();
+	} while (q != 11);
 }
