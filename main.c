@@ -6,9 +6,11 @@
 
 int main() {
   
-    Pedido *ini; // a lista est� aqui
+    Pedido *ini; // a lista dos pe� aqui
     int q, erro, *idObra; //usar o idobra como ponteiro pq ele vai ser importante em varios os cases???
     int idPedido, valorPedido;
+    Obra obra;
+    tipoNoListaDupla arvore;
 
     erro=Inicializar_LS (&ini);
 
@@ -24,8 +26,8 @@ int main() {
 
     printf("\nTarefas de gerenciamento :\n");
     printf("7 - Excluir obra do acervo \n");
-    printf("8 - Atualizar localização da obra no estoque \n");
-    printf("9 - Excluir pedido\n");
+    printf("8 - Excluir pedido\n");
+    printf("9 - \n");
     printf("10 - \n");
     printf("11 -  \n");
     printf("12 -  \n");
@@ -36,9 +38,14 @@ int main() {
 
     switch (q) {
       case 1:
+        printf("\Informe os dados da obra para inseri-la no acervo:\n");
+        obra = criarObra();
+        criarNovoNo(&arvore, obra);
+        inserirObraNaArvore(&arvore, obra);
         break;
 
       case 2:
+
         break;
 
       case 3: 
@@ -68,19 +75,23 @@ int main() {
       case 6:
         break;
 
-      case 7:
+      case 7: 
+        printf("\nInsira o ID da obra a ser excluida:\n");
+        scanf("%d", &idObra);
+        excluirObra(&arvore, idObra);
         break;
 
       case 8:
-        break;
-
-      case 9:
         printf("\nDigite o ID do pedido que deseja excluir: ");
         scanf("%d", &idPedido);
         erro = Remover_Pedido(&ini, idPedido);
         if (erro == 0){
             printf("\nPedido removido.\n");
         }
+        break;
+
+      case 9:
+        
         break;
 
       case 10:
