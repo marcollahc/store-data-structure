@@ -40,7 +40,7 @@ void criarNovoNo(tipoNoListaDupla **inicio, Obra obra){ // Alocação de memóri
   *inicio = novoNo;
 }
 
-int inserirObraNaArvore(tipoNoListaDupla **raiz, Obra produtoParaInserir){
+void inserirObraNaArvore(tipoNoListaDupla **raiz, Obra produtoParaInserir){
   if (!*raiz){
     criarNovoNo(raiz, produtoParaInserir);
   } else{
